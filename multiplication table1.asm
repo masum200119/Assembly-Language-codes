@@ -1,3 +1,4 @@
+   
 .model small
 .data   
    msg db 10,13, "Enter Any Number :$"
@@ -6,39 +7,38 @@ main proc
     mov ax,@data
     mov ds,ax 
     
-    mov dx,offset msg   
-    mov ah,9h
-    int 21h   
+    mov ah,9
+    lea dx,msg
+    int 21h  
     
-    mov ah,1h
+    mov ah,1
     int 21h
     
-    mov ch,0ah
-    mov cl,0h
+    mov ch,10
+    mov cl,0
     
-    
-    cmp al,3ah
-    sub al,30h
+
+    sub al,48
     mov bh,al  
-    mov bl,1h 
+    mov bl,1 
     
  TableLoop: 
-    
-    mov dl,0dh
-    mov ah,2h
+         
+    mov ah,2   
+    mov dl,10
+    int 21h
+    mov dl,13
     int 21h
     
-    mov dl,0ah
-    mov ah,2h
-    int 21h
     
+    mov ah,2
     mov dl,bh
-    add dl,30h  
-    mov ah,2h
+    add dl,48  
     int 21h
+     
     
+    mov ah,2
     mov dl,'X'
-    mov ah,2h
     int 21h    
     
     mov al,bl
@@ -48,7 +48,7 @@ main proc
     
     PUSH ax
     
-    mov ah,0h
+    mov ah,0
     mov al,bl
     
     AAA 
@@ -57,41 +57,43 @@ main proc
     mov bl,al
     
     mov dl,cl
-    add dl,30h
-    mov ah,2h
+    add dl,48
+    mov ah,2
     int 21h
     
     mov dl,bl
-    add dl,30h
-    mov ah,2h
+    add dl,48
+    mov ah,2
     int 21h
     
     
  OutputTable:
     
     mov dl,'='
-    mov ah,2h
+    mov ah,2
     int 21h
     
     POP ax     
     
     mov dh,al
     mov dl,ah
-    add dl,30h
+    add dl,48
     mov ah,2h
     int 21h
     
     mov dl,dh 
-    add dl,30h
-    mov ah,2h
+    add dl,48
+    mov ah,2
     int 21h  
     
     INC bl
     DEC ch
-    CMP ch,0h 
+    CMP ch,0 
     JNE TableLoop
     
     QuitTable:
     
     mov ah,4ch
-    int 21h
+    int 21h 
+    main endp
+end main
