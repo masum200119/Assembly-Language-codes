@@ -1,43 +1,60 @@
-.MODEL SMALL
-.STACK 100H
-.DATA 
-    MSG1    DB  0AH,0DH,"Enter string: $"
-    MSG2    DB  0AH,0DH,"Reversed: $"
-    BUFFER  DB  80 DUP("$")
-.CODE
-    START:
-        MOV AX,@DATA
-        MOV DS,AX
+.model small
+.stack 100h
+.data 
+    MSG1 DB 10,13,'ENTER THE STRING:$'
+    MSG2 DB 10,13,'STRING IS PALINDROME $'
+    MSG3 DB 10,13,'STRING IS NOT PALINDROME $'
+    STR1 DB 50 DUP(0) 
+.code 
+    MAIN PROC
+       mov ax,@data
+       mov Ds,ax
+       
+       mov ah,9
+       lea dx,msg1
+       int 21h
+       
+       lea si,str1
+       lea di,str1
+       
+       mov ah,1
+       
+       Next:
+       int 21h
+       cmp al,13
+       JE terminate
+       mov [di],al
+       inc di
+       jmp Next 
+       
+       terminate:
+       mov al,'$' 
+       mov [di],al 
+       
+       mov ah,2
+       mov dl,10
+       int 21h
+       mov dl,13
+       int 21h
+       
+       
+       dothis: 
+       dec di
+       mov al,[di]
+       mov ah,2
+       mov dl,al
+       int 21h
+       cmp si,di
+       je xx
+       jmp dothis
         
-        LEA DX,MSG1
-        MOV AH,9
-        INT 21H 
-        
-        LEA SI,BUFFER
-        LEA DI,BUFFER
-        
-        MOV AH,1
-        
-    INPUT:
-        INT 21H
-        CMP AL,0DH
-        JE OUTPUT
-        MOV [DI],AL
-        INC DI
-        JMP INPUT
-    OUTPUT: 
-        LEA DX,MSG2
-        MOV AH,9
-        INT 21H
-        MOV AH,02
-        PRINT:
-            DEC DI
-            MOV DL,[DI]
-            INT 21H 
-            CMP SI,DI
-            JE EXIT
-            JMP PRINT
-    EXIT:
-        MOV AH, 04CH
-        INT 21
+ 
+XX:
+    MOV AH,4CH
+    INT 21H
+ 
+       
+       
+       
+       
         
